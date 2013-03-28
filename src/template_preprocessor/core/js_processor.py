@@ -30,87 +30,87 @@ __JS_KEYWORDS = 'break|catch|const|continue|debugger|default|delete|do|else|enum
 
 __JS_STATES = {
     'root' : State(
-            State.Transition(r'\s*\{\s*', (StartToken('js-scope'), Shift(), )),
-            State.Transition(r'\s*\}\s*', (StopToken('js-scope'), Shift(), )),
-            State.Transition(r'/\*', (Push('multiline-comment'), Shift(), )),
-            State.Transition(r'//', (Push('singleline-comment'), Shift(), )),
-            State.Transition(r'"', (Push('double-quoted-string'), StartToken('js-double-quoted-string'), Shift(), )),
-            State.Transition(r"'", (Push('single-quoted-string'), StartToken('js-single-quoted-string'), Shift(), )),
+            State.Transition(r'\s*\{\s*', (StartToken('js-scope'), Shift(),)),
+            State.Transition(r'\s*\}\s*', (StopToken('js-scope'), Shift(),)),
+            State.Transition(r'/\*', (Push('multiline-comment'), Shift(),)),
+            State.Transition(r'//', (Push('singleline-comment'), Shift(),)),
+            State.Transition(r'"', (Push('double-quoted-string'), StartToken('js-double-quoted-string'), Shift(),)),
+            State.Transition(r"'", (Push('single-quoted-string'), StartToken('js-single-quoted-string'), Shift(),)),
 
             State.Transition(r'(break|catch|const|continue|debugger|default|delete|do|else|enum|false|finally|for|function|case|if|new|null|return|switch|this|throw|true|try|typeof|var|void|while|with)(?![a-zA-Z0-9_$])',
                                     (StartToken('js-keyword'), Record(), Shift(), StopToken())),
 
                 # Whitespaces are recorded in the operator. (They can be removed later on by a simple trim operator.)
-            State.Transition(r'\s*(in|instanceof)\b\s*', (StartToken('js-operator'), Record(), Shift(), StopToken(), )), # in-operator
-            State.Transition(r'\s*([;,=?:|^&=!<>*%~\.+-])\s*', (StartToken('js-operator'), Record(), Shift(), StopToken(), )),
+            State.Transition(r'\s*(in|instanceof)\b\s*', (StartToken('js-operator'), Record(), Shift(), StopToken(),)),  # in-operator
+            State.Transition(r'\s*([;,=?:|^&=!<>*%~\.+-])\s*', (StartToken('js-operator'), Record(), Shift(), StopToken(),)),
 
                 # Place ( ... ) and [ ... ] in separate nodes.
                 # After closing parentheses/square brakets. Go 'after-varname' (because the context is the same.)
-            State.Transition(r'\s*(\()\s*', (StartToken('js-parentheses'), Shift(), )),
-            State.Transition(r'\s*(\))\s*', (StopToken('js-parentheses'), Shift(), Push('after-varname'), )),
-            State.Transition(r'\s*(\[)\s*', (StartToken('js-square-brackets'), Shift(), )),
-            State.Transition(r'\s*(\])\s*', (StopToken('js-square-brackets'), Shift(), Push('after-varname'), )),
+            State.Transition(r'\s*(\()\s*', (StartToken('js-parentheses'), Shift(),)),
+            State.Transition(r'\s*(\))\s*', (StopToken('js-parentheses'), Shift(), Push('after-varname'),)),
+            State.Transition(r'\s*(\[)\s*', (StartToken('js-square-brackets'), Shift(),)),
+            State.Transition(r'\s*(\])\s*', (StopToken('js-square-brackets'), Shift(), Push('after-varname'),)),
 
                 # Varnames and numbers
-            State.Transition(r'[a-zA-Z_$][a-zA-Z_$0-9]*', (StartToken('js-varname'), Record(), Shift(), StopToken(), Push('after-varname') )),
-            State.Transition(r'[0-9.]+', (StartToken('js-number'), Record(), Shift(), StopToken(), Push('after-varname') )),
+            State.Transition(r'[a-zA-Z_$][a-zA-Z_$0-9]*', (StartToken('js-varname'), Record(), Shift(), StopToken(), Push('after-varname'))),
+            State.Transition(r'[0-9.]+', (StartToken('js-number'), Record(), Shift(), StopToken(), Push('after-varname'))),
 
                 # Required whitespace here (to be replaced with at least a space.)
-            State.Transition(r'\s+', (StartToken('js-whitespace'), Record(), Shift(), StopToken() )), # Skip whitespace.
+            State.Transition(r'\s+', (StartToken('js-whitespace'), Record(), Shift(), StopToken())),  # Skip whitespace.
 
                 # A slash in here means we are at the start of a regex block.
-            State.Transition(r'\s*/(?![/*])', (StartToken('js-regex-object'), Record(), Shift(), Push('regex-object') )),
+            State.Transition(r'\s*/(?![/*])', (StartToken('js-regex-object'), Record(), Shift(), Push('regex-object'))),
 
             State.Transition(r'.|\s', (Error('Error in parser #1'),)),
             ),
     'double-quoted-string': State(
-            State.Transition(r'"', (Pop(), Shift(), StopToken(), )),
+            State.Transition(r'"', (Pop(), Shift(), StopToken(),)),
                         # Records quotes without their escape characters
-            State.Transition(r"\\'", (Record("'"), Shift(), )),
-            State.Transition(r'\\"', (Record('"'), Shift(), )),
+            State.Transition(r"\\'", (Record("'"), Shift(),)),
+            State.Transition(r'\\"', (Record('"'), Shift(),)),
                         # For other escapes, also save the slash
-            State.Transition(r'\\(.|\n|\r)', (Record(), Shift(), )),
-            State.Transition(r'[^"\\]+', (Record(), Shift(), )),
+            State.Transition(r'\\(.|\n|\r)', (Record(), Shift(),)),
+            State.Transition(r'[^"\\]+', (Record(), Shift(),)),
             State.Transition(r'.|\s', (Error('Error in parser #2'),)),
             ),
     'single-quoted-string': State(
-            State.Transition(r"'", (Pop(), Shift(), StopToken(), )),
-            State.Transition(r"\\'", (Record("'"), Shift(), )),
-            State.Transition(r'\\"', (Record('"'), Shift(), )),
-            State.Transition(r'\\(.|\n|\r)', (Record(), Shift(), )),
-            State.Transition(r"[^'\\]+", (Record(), Shift(), )),
+            State.Transition(r"'", (Pop(), Shift(), StopToken(),)),
+            State.Transition(r"\\'", (Record("'"), Shift(),)),
+            State.Transition(r'\\"', (Record('"'), Shift(),)),
+            State.Transition(r'\\(.|\n|\r)', (Record(), Shift(),)),
+            State.Transition(r"[^'\\]+", (Record(), Shift(),)),
             State.Transition(r'.|\s', (Error('Error in parser #3'),)),
             ),
 
     'multiline-comment': State(
-            State.Transition(r'\*/', (Shift(), Pop(), )), # End comment
-            State.Transition(r'(\*(?!/)|[^\*])+', (Shift(), )), # star, not followed by slash, or non star characters
-            State.Transition(r'(\*(?!/))+', (Shift(), )), # star, not followed by slash
+            State.Transition(r'\*/', (Shift(), Pop(),)),  # End comment
+            State.Transition(r'(\*(?!/)|[^\*])+', (Shift(),)),  # star, not followed by slash, or non star characters
+            State.Transition(r'(\*(?!/))+', (Shift(),)),  # star, not followed by slash
             State.Transition(r'.|\s', (Error('Error in parser #4'),)),
             ),
 
     'singleline-comment': State(
-            State.Transition(r'\n', (Shift(), Pop(), )), # End of line is end of comment
-            State.Transition(r'[^\n]+', (Shift(), )),
+            State.Transition(r'\n', (Shift(), Pop(),)),  # End of line is end of comment
+            State.Transition(r'[^\n]+', (Shift(),)),
             State.Transition(r'.|\s', (Error('Error in parser #5'),)),
             ),
 
     'after-varname': State(
             # A slash after a varname means we have a division operator.
-            State.Transition(r'\s*/(?![/*])\s*', (StartToken('js-operator'), Record(), Shift(), StopToken(), )),
+            State.Transition(r'\s*/(?![/*])\s*', (StartToken('js-operator'), Record(), Shift(), StopToken(),)),
 
-            State.Transition(r'/\*', (Push('multiline-comment'), Shift(), )),
-            State.Transition(r'//[^\n]*', (Shift(), )), # Single line comment
+            State.Transition(r'/\*', (Push('multiline-comment'), Shift(),)),
+            State.Transition(r'//[^\n]*', (Shift(),)),  # Single line comment
 
             # None of the previous matches? Pop and get again in the root state
-            State.Transition(r'.|\s', (Pop(), )),
+            State.Transition(r'.|\s', (Pop(),)),
             State.Transition(r'.|\s', (Error('Error in parser #6'),)),
             ),
 
     'regex-object': State(
-            State.Transition(r'\\.', (Record(), Shift() )),
-            State.Transition(r'[^/\\]+', (Record(), Shift(), )),
-            State.Transition(r'/[a-z]*', (Record(), Shift(), StopToken(), Pop() )), # End of regex object
+            State.Transition(r'\\.', (Record(), Shift())),
+            State.Transition(r'[^/\\]+', (Record(), Shift(),)),
+            State.Transition(r'/[a-z]*', (Record(), Shift(), StopToken(), Pop())),  # End of regex object
             State.Transition(r'.|\s', (Error('Error in parser #7'),)),
             ),
    }
@@ -353,9 +353,9 @@ def _compress_javascript_whitespace(js_node, root_node=True):
             # Around operators, we can delete all whitespace.
             if isinstance(c, JavascriptOperator):
                 if c.operator == 'in':
-                    c.children = [ ' in ' ] # Don't trim whitespaces around the 'in' operator
+                    c.children = [ ' in ' ]  # Don't trim whitespaces around the 'in' operator
                 elif c.operator == 'instanceof':
-                    c.children = [ ' instanceof ' ] # Don't trim whitespaces around the 'in' operator
+                    c.children = [ ' instanceof ' ]  # Don't trim whitespaces around the 'in' operator
                 else:
                     c.children = [ c.operator ]
 
@@ -454,7 +454,7 @@ def _minify_variable_names(js_node):
         if isinstance(nodelist[i], JavascriptParentheses):
             # Remember function parameters
             variables = []
-            need_comma = False # comma is the param separator
+            need_comma = False  # comma is the param separator
             for n in nodelist[i].children:
                 if isinstance(n, JavascriptWhiteSpace):
                     pass
@@ -502,13 +502,13 @@ def _minify_variable_names(js_node):
                     # if so, we shouldn't rename it.
                     try:
                         if index + 1 < len(children):
-                            n = children[index+1]
+                            n = children[index + 1]
                             if isinstance(n, JavascriptOperator) and n.is_colon:
                                 skip_next_var = True
 
                         # Except for varname in this case:    (1 == 2 ? varname : 3 )
                         if index > 0:
-                            n = children[index-1]
+                            n = children[index - 1]
                             if isinstance(n, JavascriptOperator) and n.operator == '?':
                                 skip_next_var = False
                     except IndexError, e:
@@ -542,16 +542,16 @@ def _minify_variable_names(js_node):
         def output(c):
             return u''.join([ string.lowercase[i] for i in c ])
 
-        c = [0] # Numeral representation of character array
+        c = [0]  # Numeral representation of character array
         while output(c) in avoid_names:
             c[0] += 1
 
             # Overflow dectection
             for i in range(0, len(c)):
-                if c[i] == 26: # Overflow
+                if c[i] == 26:  # Overflow
                     c[i] = 0
                     try:
-                        c[i+1] += 1
+                        c[i + 1] += 1
                     except IndexError:
                         c.append(0)
 
@@ -614,7 +614,7 @@ def _validate_javascript(js_node):
     # statement should end with a semi colon, except: for, function, if,
     # switch, try and while (See JSlint.com)
     for scope in [js_node] + list(js_node.child_nodes_of_class(JavascriptScope)):
-        i = [0] # Variable by referece
+        i = [0]  # Variable by referece
 
         def next():
             i[0] += 1

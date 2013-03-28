@@ -32,6 +32,12 @@ except ImportError:
 def is_remote_url(url):
     return any(url.startswith(prefix) for prefix in ('http://', 'https://'))
 
+def is_media_url(url):
+    return url.startswith(MEDIA_URL)
+
+def is_static_url(url):
+    return url.startswith(STATIC_URL)
+
 
 def get_media_source_from_url(url):
     """
@@ -129,7 +135,7 @@ def _create_directory_if_not_exists(directory):
     Create a directory (for cache, ...) if this one does not yet exist.
     """
     if not os.path.exists(directory):
-        #os.mkdir(directory)
+        # os.mkdir(directory)
         os.makedirs(directory)
 
 
@@ -171,7 +177,7 @@ def compile_external_javascript_files(media_files, context, compress_tag=None):
     if need_to_be_recompiled(media_files, compiled_path):
         # Trigger callback, used for printing "compiling media..." feedback
         context.compile_media_callback(compress_tag, map(simplify_media_url, media_files))
-        progress = [0] # by reference
+        progress = [0]  # by reference
 
         def compile_part(media_file):
             progress[0] += 1
@@ -180,7 +186,7 @@ def compile_external_javascript_files(media_files, context, compress_tag=None):
             context.compile_media_progress_callback(compress_tag, simplify_media_url(media_file),
                         progress[0], len(media_files), len(media_content))
 
-            if not is_remote_url(media_file) or context.options.compile_remote_javascript:
+            if (not is_remote_url(media_file) or context.options.compile_remote_javascript):
                 return compile_javascript_string(media_content, context, media_file)
             else:
                 return media_content
@@ -212,8 +218,7 @@ def compile_external_css_files(media_files, context, compress_tag=None):
     if need_to_be_recompiled(media_files, compiled_path):
         # Trigger callback, used for printing "compiling media..." feedback
         context.compile_media_callback(compress_tag, map(simplify_media_url, media_files))
-        progress = [0] # by reference
-
+        progress = [0]  # by reference
         def compile_part(media_file):
             progress[0] += 1
             media_content = read_media(media_file)
@@ -221,8 +226,16 @@ def compile_external_css_files(media_files, context, compress_tag=None):
             context.compile_media_progress_callback(compress_tag, simplify_media_url(media_file),
                         progress[0], len(media_files), len(media_content))
 
-            if not is_remote_url(media_file) or context.options.compile_remote_css:
+            if (not is_remote_url(media_file) or context.options.compile_remote_css):
                 return compile_css_string(media_content, context, get_media_source_from_url(media_file), media_file)
+            elif is_static_url(media_file):
+                # STATIC_URL is an absolute url, and will be placed with the css . so we remove the fullpath.
+                url = media_file[len(STATIC_URL) - 1:]
+                return compile_css_string(media_content, context, get_media_source_from_url(media_file), url)
+            elif is_media_url(media_file):
+                # MEDIA_URL is an absolute url, and will be placed with the css . so we remove the fullpath.
+                url = media_file[len(MEDIA_URL) - 1:]
+                return compile_css_string(media_content, context, get_media_source_from_url(media_file), url)
             else:
                 return media_content
 

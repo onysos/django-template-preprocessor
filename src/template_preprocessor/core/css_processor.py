@@ -28,74 +28,74 @@ __CSS_STATES = {
             # Operators for which it's allowed to remove the surrounding whitespace
             # Note that the dot (.) and hash (#) operators are not among these. Removing whitespace before them
             # can cause their meaning to change.
-            State.Transition(r'\s*[{}():;,]\s*', (StartToken('css-operator'), Record(), Shift(), StopToken(), )),
+            State.Transition(r'\s*[{}():;,]\s*', (StartToken('css-operator'), Record(), Shift(), StopToken(),)),
 
             # Strings
-            State.Transition(r'"', (Push('double-quoted-string'), StartToken('css-double-quoted-string-open'), Record(), Shift(), )),
-            State.Transition(r"'", (Push('single-quoted-string'), StartToken('css-single-quoted-string-open'), Record(), Shift(), )),
+            State.Transition(r'"', (Push('double-quoted-string'), StartToken('css-double-quoted-string-open'), Record(), Shift(),)),
+            State.Transition(r"'", (Push('single-quoted-string'), StartToken('css-single-quoted-string-open'), Record(), Shift(),)),
 
             # Comments
-            State.Transition(r'/\*', (Push('multiline-comment'), Shift(), )),
-            State.Transition(r'//', (Push('singleline-comment'), Shift(), )),
+            State.Transition(r'/\*', (Push('multiline-comment'), Shift(),)),
+            State.Transition(r'//', (Push('singleline-comment'), Shift(),)),
 
             # Skip over comment signs. (not part of the actual css, and automatically inserted later on before and after
             # the css.)
-            State.Transition(r'(<!--|-->)', (Shift(), )),
+            State.Transition(r'(<!--|-->)', (Shift(),)),
 
             # URLs like in url(...)
-            State.Transition(r'url\(', (Shift(), StartToken('css-url'), Push('css-url'), )),
+            State.Transition(r'url\(', (Shift(), StartToken('css-url'), Push('css-url'),)),
 
 
             # 'Words' (multiple of these should always be separated by whitespace.)
-            State.Transition('([^\s{}();:,"\']|/(!?[/*]))+', (Record(), Shift(), )),
+            State.Transition('([^\s{}();:,"\']|/(!?[/*]))+', (Record(), Shift(),)),
 
             # Whitespace which can be minified to a single space, but shouldn't be removed completely.
-            State.Transition(r'\s+', (StartToken('css-whitespace'), Record(), Shift(), StopToken() )),
+            State.Transition(r'\s+', (StartToken('css-whitespace'), Record(), Shift(), StopToken())),
 
             State.Transition(r'.|\s', (Error('Error in parser #1'),)),
             ),
     'double-quoted-string': State(
-            State.Transition(r'"', (Record(), Pop(), Shift(), StopToken(), )),
-            State.Transition(r'\\.', (Record(), Shift(), )),
-            State.Transition(r'[^"\\]+', (Record(), Shift(), )),
+            State.Transition(r'"', (Record(), Pop(), Shift(), StopToken(),)),
+            State.Transition(r'\\.', (Record(), Shift(),)),
+            State.Transition(r'[^"\\]+', (Record(), Shift(),)),
             State.Transition(r'.|\s', (Error('Error in parser #2'),)),
             ),
     'single-quoted-string': State(
-            State.Transition(r"'", (Record(), Pop(), Shift(), StopToken(), )),
-            State.Transition(r'\\.', (Record(), Shift() )),
-            State.Transition(r"[^'\\]+", (Record(), Shift(), )),
+            State.Transition(r"'", (Record(), Pop(), Shift(), StopToken(),)),
+            State.Transition(r'\\.', (Record(), Shift())),
+            State.Transition(r"[^'\\]+", (Record(), Shift(),)),
             State.Transition(r'.|\s', (Error('Error in parser #3'),)),
             ),
     'multiline-comment': State(
-            State.Transition(r'\*/', (Shift(), Pop(), )), # End comment
-            State.Transition(r'(\*(?!/)|[^\*])+', (Shift(), )), # star, not followed by slash, or non star characters
+            State.Transition(r'\*/', (Shift(), Pop(),)),  # End comment
+            State.Transition(r'(\*(?!/)|[^\*])+', (Shift(),)),  # star, not followed by slash, or non star characters
             State.Transition(r'.|\s', (Error('Error in parser #4'),)),
             ),
 
     'css-url': State(
             # Strings inside urls (don't record the quotes, just place the content into the 'css-url' node)
-            State.Transition(r'"', (Push('css-url-double-quoted'), Shift(), )),
-            State.Transition(r"'", (Push('css-url-single-quoted'), Shift(), )),
+            State.Transition(r'"', (Push('css-url-double-quoted'), Shift(),)),
+            State.Transition(r"'", (Push('css-url-single-quoted'), Shift(),)),
             State.Transition("[^'\"\\)]+", (Record(), Shift())),
 
-            State.Transition(r'\)', (Shift(), Pop(), StopToken(), )), # End url(...)
+            State.Transition(r'\)', (Shift(), Pop(), StopToken(),)),  # End url(...)
             State.Transition(r'.|\s', (Error('Error in parser #5'),)),
             ),
     'css-url-double-quoted': State(
-            State.Transition(r'"', (Shift(), Pop(), )),
-            State.Transition(r'\\.', (Record(), Shift() )),
+            State.Transition(r'"', (Shift(), Pop(),)),
+            State.Transition(r'\\.', (Record(), Shift())),
             State.Transition(r'[^"\\]', (Record(), Shift())),
             ),
     'css-url-single-quoted': State(
-            State.Transition(r"'", (Shift(), Pop(), )),
-            State.Transition(r'\\.', (Record(), Shift() )),
+            State.Transition(r"'", (Shift(), Pop(),)),
+            State.Transition(r'\\.', (Record(), Shift())),
             State.Transition(r"[^'\\]", (Record(), Shift())),
             ),
 
             # Single line comment (however, not allowed by the CSS specs.)
     'singleline-comment': State(
-            State.Transition(r'\n', (Shift(), Pop(), )), # End of line is end of comment
-            State.Transition(r'[^\n]+', (Shift(), )),
+            State.Transition(r'\n', (Shift(), Pop(),)),  # End of line is end of comment
+            State.Transition(r'[^\n]+', (Shift(),)),
             State.Transition(r'.|\s', (Error('Error in parser #6'),)),
             ),
 }
@@ -201,7 +201,7 @@ def compile_css(css_node, context):
     - Remove comments
     - Remove whitespace where possible.
     """
-    #_remove_multiline_js_comments(js_node)
+    # _remove_multiline_js_comments(js_node)
     tokenize(css_node, __CSS_STATES, HtmlNode, DjangoContainer)
     _add_css_parser_extensions(css_node)
 
