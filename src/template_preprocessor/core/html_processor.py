@@ -30,8 +30,8 @@ __HTML4_BLOCK_LEVEL_ELEMENTS = ('html', 'head', 'body', 'meta', 'script', 'noscr
 __HTML4_INLINE_LEVEL_ELEMENTS = ('address', 'span', 'a', 'b', 'i', 'em', 'del', 'ins', 'strong', 'select', 'label', 'q', 'sub', 'sup', 'small', 'sub', 'sup', 'option', 'abbr', 'img', 'input', 'hr', 'param', 'button', 'caption', 'style', 'textarea', 'colgroup', 'col', 'samp', 'kbd', 'map', 'optgroup', 'strike', 'var', 'wbr', 'dfn')
 
 # HTML 5 tags
-__HTML5_BLOCK_LEVEL_ELEMENTS = ( 'article', 'aside', 'canvas', 'figcaption', 'figure', 'footer', 'header', 'hgroup', 'output', 'progress', 'section', 'video', )
-__HTML5_INLINE_LEVEL_ELEMENTS = ('audio', 'details', 'command', 'datalist', 'mark', 'meter', 'nav', 'source', 'summary', 'time', 'samp', 'cite' )
+__HTML5_BLOCK_LEVEL_ELEMENTS = ('article', 'aside', 'canvas', 'figcaption', 'figure', 'footer', 'header', 'hgroup', 'output', 'progress', 'section', 'video',)
+__HTML5_INLINE_LEVEL_ELEMENTS = ('audio', 'details', 'command', 'datalist', 'mark', 'meter', 'nav', 'source', 'summary', 'time', 'samp', 'cite')
 
 # All HTML tags
 __HTML_BLOCK_LEVEL_ELEMENTS = __HTML4_BLOCK_LEVEL_ELEMENTS + __HTML5_BLOCK_LEVEL_ELEMENTS
@@ -45,7 +45,7 @@ __HTML_INLINE_BLOCK_ELEMENTS = ('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'obje
         # HTML tags consisting of separate open and close tag.
 __ALL_HTML_TAGS = __HTML_BLOCK_LEVEL_ELEMENTS + __HTML_INLINE_LEVEL_ELEMENTS
 
-__DEPRECATED_HTML_TAGS = ('i', 'b', 'u', 'tt', 'strike', )
+__DEPRECATED_HTML_TAGS = ('i', 'b', 'u', 'tt', 'strike',)
 
 __HTML_ATTRIBUTES = {
     # Valid for every HTML tag
@@ -58,33 +58,33 @@ __HTML_ATTRIBUTES = {
 
     # Attributes for specific HTML tags
 
-    'a': ('href', 'hreflang', 'media', 'type', 'target', 'rel', 'name', 'share_url'), # share_url is not valid, but used in the facebook share snipped.
+    'a': ('href', 'hreflang', 'media', 'type', 'target', 'rel', 'name', 'share_url'),  # share_url is not valid, but used in the facebook share snipped.
     'audio': ('autoplay', 'controls', 'loop', 'preload', 'src'),
     'canvas': ('height', 'width'),
-    'font': ('face', 'size', ),
-    'form': ('action', 'method', 'enctype', 'name', ),
+    'font': ('face', 'size',),
+    'form': ('action', 'method', 'enctype', 'name',),
     'html': ('xmlns', 'lang', 'dir', 'itemscope', 'itemtype',),
-    'body': ('onLoad', ),
-    'img': ('src', 'alt', 'height', 'width', ),
-    'input': ('type', 'name', 'value', 'maxlength', 'checked', 'disabled', 'src', 'size', 'readonly', 'autocomplete', 'placeholder' ),
-    'select': ('name', 'value', 'size', 'disabled', ),
-    'textarea': ('name', 'rows', 'cols', 'readonly', 'placeholder', ),
-    'link': ('type', 'rel', 'href', 'media', 'charset', 'sizes', ),
-    'meta': ('content', 'http-equiv', 'name', 'property', 'charset', 'itemprop', ),
-    'script': ('type', 'src', 'language', 'charset', ),
-    'style': ('type', 'media', ),
-    'td': ('colspan', 'rowspan', 'width', 'height', ),
-    'th': ('colspan', 'rowspan', 'width', 'height', 'scope', ),
-    'button': ('value', 'type', 'name', ),
-    'label': ('for', ),
-    'option': ('value', 'selected', ),
-    'base': ('href', ),
-    'object': ('data', 'type', 'width', 'height', 'quality', ),
-    'iframe': ('src', 'srcdoc', 'name', 'height', 'width', 'marginwidth', 'marginheight', 'scrolling', 'sandbox', 'seamless', 'frameborder', 'allowTransparency', 'webkitAllowFullScreen', 'allowFullScreen', 'mozallowfullscreen', 'frameBorder', ),
-    'param': ('name', 'value', ),
-    'table': ('cellpadding', 'cellspacing', 'summary', 'width', ),
-    'p': ('align', ), # Deprecated
-    'embed': ('src', 'allowscriptaccess', 'allowScriptAccess', 'height', 'width', 'allowfullscreen', 'type', ),
+    'body': ('onLoad',),
+    'img': ('src', 'alt', 'height', 'width',),
+    'input': ('type', 'name', 'value', 'maxlength', 'checked', 'disabled', 'src', 'size', 'readonly', 'autocomplete', 'placeholder'),
+    'select': ('name', 'value', 'size', 'disabled',),
+    'textarea': ('name', 'rows', 'cols', 'readonly', 'placeholder',),
+    'link': ('type', 'rel', 'href', 'media', 'charset', 'sizes',),
+    'meta': ('content', 'http-equiv', 'name', 'property', 'charset', 'itemprop',),
+    'script': ('type', 'src', 'language', 'charset',),
+    'style': ('type', 'media',),
+    'td': ('colspan', 'rowspan', 'width', 'height',),
+    'th': ('colspan', 'rowspan', 'width', 'height', 'scope',),
+    'button': ('value', 'type', 'name',),
+    'label': ('for',),
+    'option': ('value', 'selected',),
+    'base': ('href',),
+    'object': ('data', 'type', 'width', 'height', 'quality',),
+    'iframe': ('src', 'srcdoc', 'name', 'height', 'width', 'marginwidth', 'marginheight', 'scrolling', 'sandbox', 'seamless', 'frameborder', 'allowTransparency', 'webkitAllowFullScreen', 'allowFullScreen', 'mozallowfullscreen', 'frameBorder',),
+    'param': ('name', 'value',),
+    'table': ('cellpadding', 'cellspacing', 'summary', 'width',),
+    'p': ('align',),  # Deprecated
+    'embed': ('src', 'allowscriptaccess', 'allowScriptAccess', 'height', 'width', 'allowfullscreen', 'type',),
     'video': ('audio', 'autoplay', 'controls', 'height', 'loop', 'poster', 'preload', 'src', 'width'),
 }
 
@@ -93,7 +93,7 @@ __HTML_ATTRIBUTES = {
 
 def xml_escape(s):
     # XML escape
-    s = unicode(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')#.replace("'", '&#39;')
+    s = unicode(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')  # .replace("'", '&#39;')
 
     # Escape braces, to make sure Django tags will not be rendered in here.
     s = unicode(s).replace('}', '&#x7d;').replace('{', '&#x7b;')
@@ -105,112 +105,112 @@ def xml_escape(s):
 __HTML_STATES = {
     'root' : State(
             # conditional comments
-            State.Transition(r'<!(--)?\[if', (StartToken('html-start-conditional-comment'), Record(), Shift(), Push('conditional-comment'), )),
-            State.Transition(r'<!(--)?(<!)?\[endif\](--)?>', (StartToken('html-end-conditional-comment'), Record(), Shift(), StopToken(), )),
-            State.Transition(r'<!\[CDATA\[', (StartToken('html-cdata'), Shift(), Push('cdata'), )),
+            State.Transition(r'<!(--)?\[if', (StartToken('html-start-conditional-comment'), Record(), Shift(), Push('conditional-comment'),)),
+            State.Transition(r'<!(--)?(<!)?\[endif\](--)?>', (StartToken('html-end-conditional-comment'), Record(), Shift(), StopToken(),)),
+            State.Transition(r'<!\[CDATA\[', (StartToken('html-cdata'), Shift(), Push('cdata'),)),
 
             # XML doctype
-            State.Transition(r'<!DOCTYPE', (StartToken('html-doctype'), Record(), Shift(), Push('doctype'), )),
+            State.Transition(r'<!DOCTYPE', (StartToken('html-doctype'), Record(), Shift(), Push('doctype'),)),
 
             # HTML comments
-            State.Transition(r'<!--', (StartToken('html-comment'), Shift(), Push('comment'), )),
+            State.Transition(r'<!--', (StartToken('html-comment'), Shift(), Push('comment'),)),
 
             # HTML tags
-            State.Transition(r'</(?=\w)', (StartToken('html-end-tag'), Shift(), Push('tag'), )),
-            State.Transition(r'<(?=\w)', (StartToken('html-tag'), Shift(), Push('tag'), )),
+            State.Transition(r'</(?=\w)', (StartToken('html-end-tag'), Shift(), Push('tag'),)),
+            State.Transition(r'<(?=\w)', (StartToken('html-tag'), Shift(), Push('tag'),)),
 
-            State.Transition(r'&', (StartToken('html-entity'), Record(), Shift(), Push('entity'), )),
+            State.Transition(r'&', (StartToken('html-entity'), Record(), Shift(), Push('entity'),)),
 
             # Content
-            State.Transition(r'([^<>\s&])+', (StartToken('html-content'), Record(), Shift(), StopToken(), )),
+            State.Transition(r'([^<>\s&])+', (StartToken('html-content'), Record(), Shift(), StopToken(),)),
 
             # Whitespace
-            State.Transition(r'\s+', (StartToken('html-whitespace'), Record(), Shift(), StopToken(), )),
+            State.Transition(r'\s+', (StartToken('html-whitespace'), Record(), Shift(), StopToken(),)),
 
-            State.Transition(r'.|\s', (Error('Parse error in HTML document'), )),
+            State.Transition(r'.|\s', (Error('Parse error in HTML document'),)),
             ),
     'conditional-comment': State(
-            State.Transition(r'[\s\w()!|&]+', (Record(), Shift(), )),
-            State.Transition(r'\](--)?>(\s*<!-->)?', (Record(), Shift(), Pop(), StopToken(), )),
-            State.Transition(r'.|\s', (Error('Parse error in Conditional Comment'), )),
+            State.Transition(r'[\s\w()!|&]+', (Record(), Shift(),)),
+            State.Transition(r'\](--)?>(\s*<!-->)?', (Record(), Shift(), Pop(), StopToken(),)),
+            State.Transition(r'.|\s', (Error('Parse error in Conditional Comment'),)),
             ),
     'comment': State(
             # End of comment
-            State.Transition(r'-->', (Shift(), Pop(), StopToken(), )),
+            State.Transition(r'-->', (Shift(), Pop(), StopToken(),)),
 
             # Comment content
-            State.Transition(r'([^-]|-(?!->))+', (Record(), Shift(), )),
+            State.Transition(r'([^-]|-(?!->))+', (Record(), Shift(),)),
 
-            State.Transition(r'.|\s', (Error('Parse error in HTML comment'), )),
+            State.Transition(r'.|\s', (Error('Parse error in HTML comment'),)),
             ),
     'cdata': State(
             # End of CDATA block
-            State.Transition(r'\]\]>', (Shift(), Pop(), StopToken() )),
+            State.Transition(r'\]\]>', (Shift(), Pop(), StopToken())),
 
             # CDATA content
-            State.Transition(r'([^\]]|\](?!\]>))+', (Record(), Shift(), )),
+            State.Transition(r'([^\]]|\](?!\]>))+', (Record(), Shift(),)),
 
-            State.Transition(r'.|\s', (Error('Parse error in CDATA tag'), )),
+            State.Transition(r'.|\s', (Error('Parse error in CDATA tag'),)),
             ),
     'doctype': State(
-            State.Transition(r'[^>\s]+', (Record(), Shift(), )),
-            State.Transition(r'\s+', (Record(' '), Shift(), )),
-            State.Transition(r'>', (Record(), StopToken(), Shift(), Pop(), )),
+            State.Transition(r'[^>\s]+', (Record(), Shift(),)),
+            State.Transition(r'\s+', (Record(' '), Shift(),)),
+            State.Transition(r'>', (Record(), StopToken(), Shift(), Pop(),)),
 
-            State.Transition(r'.|\s', (Error('Parse error in doctype tag'), )),
+            State.Transition(r'.|\s', (Error('Parse error in doctype tag'),)),
             ),
     'tag': State(
             # At the start of an html tag
-            State.Transition('[^\s/>]+', (StartToken('html-tag-name'), Record(), Shift(), StopToken(), Pop(), Push('tag2'), )),
+            State.Transition('[^\s/>]+', (StartToken('html-tag-name'), Record(), Shift(), StopToken(), Pop(), Push('tag2'),)),
 
-            State.Transition(r'.|\s', (Error('Parse error in HTML tag'), )),
+            State.Transition(r'.|\s', (Error('Parse error in HTML tag'),)),
             ),
-    'tag2': State( # Inside the html tag
+    'tag2': State(# Inside the html tag
             # HTML tag attribute
             State.Transition(r'[\w:_-]+=', (StartToken('html-tag-attribute'),
                                             StartToken('html-tag-attribute-key'), Record(), Shift(), StopToken(),
-                                            StartToken('html-tag-attribute-value'), Push('attribute-value'), )),
+                                            StartToken('html-tag-attribute-value'), Push('attribute-value'),)),
 
             # HTML tag attribute (oldstyle without = sign
             State.Transition(r'[\w:_-]+(?!=)', (StartToken('html-tag-attribute'), StartToken('html-tag-attribute-key'),
-                                                    Record(), Shift(), StopToken(), StopToken(), )),
+                                                    Record(), Shift(), StopToken(), StopToken(),)),
 
             # End of html tag
-            State.Transition(r'\s*/>', (StartToken('html-tag-end-sign'), StopToken(), Shift(), Pop(), StopToken(), )),
-            State.Transition(r'\s*>', (Shift(), Pop(), StopToken(), )),
+            State.Transition(r'\s*/>', (StartToken('html-tag-end-sign'), StopToken(), Shift(), Pop(), StopToken(),)),
+            State.Transition(r'\s*>', (Shift(), Pop(), StopToken(),)),
 
             # Whitespace
-            State.Transition(r'\s+', (Shift(), StartToken('html-tag-whitespace'), Record(' '), StopToken(), )),
+            State.Transition(r'\s+', (Shift(), StartToken('html-tag-whitespace'), Record(' '), StopToken(),)),
 
-            State.Transition(r'.|\s', (Error('Parse error in HTML tag'), )),
+            State.Transition(r'.|\s', (Error('Parse error in HTML tag'),)),
             ),
     'entity': State(
-            State.Transition(r';', (Record(), Shift(), Pop(), StopToken() )),
-            State.Transition(r'[#a-zA-Z0-9]+', (Record(), Shift(), )),
-            State.Transition(r'.|\s', (Error('Parse error in HTML entity'), )),
+            State.Transition(r';', (Record(), Shift(), Pop(), StopToken())),
+            State.Transition(r'[#a-zA-Z0-9]+', (Record(), Shift(),)),
+            State.Transition(r'.|\s', (Error('Parse error in HTML entity'),)),
             ),
     'attribute-value': State(
             # Strings or word characters
-            State.Transition(r"'", (Record(), Shift(), Push('attribute-string'), )),
-            State.Transition(r'"', (Record(), Shift(), Push('attribute-string2'), )),
-            State.Transition(r'\w+', (Record(), Shift(), )),
+            State.Transition(r"'", (Record(), Shift(), Push('attribute-string'),)),
+            State.Transition(r'"', (Record(), Shift(), Push('attribute-string2'),)),
+            State.Transition(r'\w+', (Record(), Shift(),)),
 
             # Anything else? Pop back to the tag
-            State.Transition(r'\s|.', (Pop(), StopToken(), StopToken() )),
+            State.Transition(r'\s|.', (Pop(), StopToken(), StopToken())),
             ),
 
-    'attribute-string': State( # Double quoted
+    'attribute-string': State(# Double quoted
                     # NOTE: We could also use the regex r'"[^"]*"', but that won't work
                     #       We need a separate state for the strings, because the string itself could
                     #       contain a django tag, and it works this way in lexer.
-            State.Transition(r"'", (Record(), Shift(), Pop(), Pop(), StopToken(), StopToken(), )),
-            State.Transition(r'&', (StartToken('html-entity'), Record(), Shift(), Push('entity'), )),
-            State.Transition(r"[^'&]+", (Record(), Shift(), )),
+            State.Transition(r"'", (Record(), Shift(), Pop(), Pop(), StopToken(), StopToken(),)),
+            State.Transition(r'&', (StartToken('html-entity'), Record(), Shift(), Push('entity'),)),
+            State.Transition(r"[^'&]+", (Record(), Shift(),)),
             ),
-    'attribute-string2': State( # Single quoted
-            State.Transition(r'"', (Record(), Shift(), Pop(), Pop(), StopToken(), StopToken(), )),
-            State.Transition(r'&', (StartToken('html-entity'), Record(), Shift(), Push('entity'), )),
-            State.Transition(r'[^"&]+', (Record(), Shift(), )),
+    'attribute-string2': State(# Single quoted
+            State.Transition(r'"', (Record(), Shift(), Pop(), Pop(), StopToken(), StopToken(),)),
+            State.Transition(r'&', (StartToken('html-entity'), Record(), Shift(), Push('entity'),)),
+            State.Transition(r'[^"&]+', (Record(), Shift(),)),
             ),
     }
 
@@ -340,7 +340,7 @@ class HtmlTag(HtmlNode):
         ws.children = [ ' ' ]
 
         # Attribute name
-        n= HtmlTagAttributeName()
+        n = HtmlTagAttributeName()
         n.children = [ name, '=' ]
 
         # Attribute
@@ -494,12 +494,14 @@ class HtmlScriptNode(HtmlNode):
         handler(u' '.join([ u'%s%s' % (a, self.__attrs[a]) for a in self.__attrs.keys() ]))
         handler('>')
 
-        if not self.is_external:
+        addcdata = not self.is_external \
+                    and (self.__attrs.get("type=", '"text/javascript"') == '"text/javascript"')
+        if addcdata:
             handler('//<![CDATA[\n')
 
         Token.output(self, handler)
 
-        if not self.is_external:
+        if addcdata:
             handler(u'//]]>\n')
 
         handler(u'</script>')
@@ -512,7 +514,7 @@ class HtmlStyleNode(HtmlNode):
     html_tagname = 'style'
 
     def process_params(self, params):
-        self.is_external = False # Always False
+        self.is_external = False  # Always False
 
     def output(self, handler):
         handler(u'<style type="text/css"><!--')
@@ -601,14 +603,14 @@ def _nest_elements(tree):
         # element of the other class, with the other html_tagname,
     # to a new parse node of the latter class.
     block_elements2 = {
-        (False, HtmlTag, 'script'): ((False, HtmlEndTag, 'script'),  HtmlScriptNode),
-        (False, HtmlTag, 'style'): ((False, HtmlEndTag, 'style'),  HtmlStyleNode),
-        (False, HtmlTag, 'pre'): ((False, HtmlEndTag, 'pre'),  HtmlPreNode),
-        (False, HtmlTag, 'textarea'): ((False, HtmlEndTag, 'textarea'),  HtmlTextareaNode),
+        (False, HtmlTag, 'script'): ((False, HtmlEndTag, 'script'), HtmlScriptNode),
+        (False, HtmlTag, 'style'): ((False, HtmlEndTag, 'style'), HtmlStyleNode),
+        (False, HtmlTag, 'pre'): ((False, HtmlEndTag, 'pre'), HtmlPreNode),
+        (False, HtmlTag, 'textarea'): ((False, HtmlEndTag, 'textarea'), HtmlTextareaNode),
     }
 
     nest_block_level_elements(tree, block_elements2, (HtmlTag, HtmlEndTag),
-            lambda c: (c.is_closing_html_tag, c.__class__, c.html_tagname) )
+            lambda c: (c.is_closing_html_tag, c.__class__, c.html_tagname))
 
 
 # ==================================[  HTML Tree manipulations ]================================
@@ -776,7 +778,7 @@ def _validate_html_attributes(tree):
         # Ignore tags from other namespaces.
         if not ':' in tag.html_tagname:
             # Check for double attributes
-            attr_list=[]
+            attr_list = []
 
             if not tag.has_child_nodes_of_class((DjangoTag, DjangoContainer)):
                 # TODO XXX:  {% if ... %} ... {% endif %} are not yet groupped in an DjangoIfNode, which means
@@ -908,7 +910,7 @@ def _nest_all_elements(tree):
         block_elements2[(False, HtmlTag, t)] = ((False, HtmlEndTag, t), _create_html_tag_node(t))
 
     nest_block_level_elements(tree, block_elements2, (HtmlTag, HtmlEndTag),
-            lambda c: (c.is_closing_html_tag, c.__class__, c.html_tagname) )
+            lambda c: (c.is_closing_html_tag, c.__class__, c.html_tagname))
 
 
 def _check_no_block_level_html_in_inline_html(tree, options):
@@ -1044,7 +1046,7 @@ def _pack_external_css(tree, context):
                         (STATIC_URL and source.startswith(STATIC_URL)) or
                         is_remote_url(source)):
                     # Add to list
-                    css_in_pack.append( { 'tag': tag, 'source': source } )
+                    css_in_pack.append({ 'tag': tag, 'source': source })
                     check_external_file_existance(tag, source)
 
         # Group CSS only when they have the same 'media' attribute value
@@ -1143,7 +1145,7 @@ def _insert_debug_symbols(tree, context):
         # The parent node would contain the source of every child node as
         # well, but we do not want to send the same source 100times to the browser.
         # Therefor we add hooks for every tag, and replace it by pointers.
-        apply_source_list = [] # (tag, source)
+        apply_source_list = []  # (tag, source)
 
         for tag in [body_node] + list(body_node.child_nodes_of_class((HtmlTagPair, HtmlTag))):
             def create_capture():
@@ -1286,9 +1288,9 @@ def _process_html_tree(tree, context):
 
         # TODO: following three checks are not necsesary in HTML5,
         #       -> create a HTML5 option instead.
-        #_ensure_type_in_scripts(tree)
-        #_ensure_type_in_css(tree)
-        #_ensure_href_in_hyperlinks(tree)
+        # _ensure_type_in_scripts(tree)
+        # _ensure_type_in_css(tree)
+        # _ensure_href_in_hyperlinks(tree)
 
         _validate_html_attributes(tree)
         _ensure_alt_attribute(tree)
@@ -1346,8 +1348,8 @@ def _process_html_tree(tree, context):
     if options.compile_javascript:
         for js_node in tree.child_nodes_of_class(HtmlScriptNode):
             if not js_node.is_external:
-                #print 'compiling'
-                #print js_node._print()
+                # print 'compiling'
+                # print js_node._print()
                 compile_javascript(js_node, context)
 
     # Compile CSS
@@ -1365,7 +1367,7 @@ def _process_html_tree(tree, context):
         '''
 
 
-    ## TODO: remove emty CSS nodes <style type="text/css"><!-- --></style>
+    # # TODO: remove emty CSS nodes <style type="text/css"><!-- --></style>
 
     # Insert DEBUG symbols (for bringing line/column numbers to web client)
     if context.insert_debug_symbols:

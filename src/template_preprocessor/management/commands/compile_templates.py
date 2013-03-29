@@ -18,6 +18,8 @@ from template_preprocessor.utils import language, template_iterator, load_templa
 from template_preprocessor.utils import get_options_for_path, execute_precompile_command
 from template_preprocessor.core.utils import need_to_be_recompiled, create_media_output_path
 from template_preprocessor.core.context import Context
+import time
+from contextlib import contextmanager
 
 
 class Command(BaseCommand):
@@ -42,6 +44,7 @@ class Command(BaseCommand):
             """
             def __init__(s, *args, **kwargs):
                 kwargs['insert_debug_symbols'] = self.insert_debug_symbols
+
                 Context.__init__(s, *args, **kwargs)
 
             def compile_media_callback(s, compress_tag, media_files):
@@ -57,6 +60,16 @@ class Command(BaseCommand):
 
                 for m in media_files:
                     print self.colored('   * %s' % m, 'green')
+
+            @contextmanager
+            def time_operation(self, name):
+                if self.verbosity >= 3:
+                    begin = time.clock()
+                    yield
+                    end = time.clock()
+                    print termcolor.colored(name, "blue"), (termcolor.colored("%.2fs" % (end - begin), "yellow"))
+                else:
+                    yield
 
             def compile_media_progress_callback(s, compress_tag, media_file, current, total, file_size):
                 """
@@ -96,7 +109,7 @@ class Command(BaseCommand):
 
         prof.close()
         stats = hotshot.stats.load(f)
-        #stats.strip_dirs()
+        # stats.strip_dirs()
         stats.sort_stats('time')
         stats.print_stats(1.0)
         os.remove(f)
@@ -113,7 +126,7 @@ class Command(BaseCommand):
 
         # Default verbosity
         self.verbosity = int(options.get('verbosity', 1))
-
+        self.NiceContext.verbosity = self.verbosity
         # Colors?
         self.boring = bool(options.get('boring'))
 
@@ -136,7 +149,7 @@ class Command(BaseCommand):
                                 settings.TEMPLATE_CACHE_DIR).lower() in ('y', 'yes'):
                 for root, dirs, files in os.walk(settings.TEMPLATE_CACHE_DIR):
                     for f in files:
-                        if not f[0] == '.': # Skip hidden files
+                        if not f[0] == '.':  # Skip hidden files
                             path = os.path.join(root, f)
                             if self.verbosity >= 1:
                                 print ('Deleting old template: %s' % path)
@@ -146,7 +159,7 @@ class Command(BaseCommand):
                                 settings.MEDIA_CACHE_DIR).lower() in ('y', 'yes'):
                 for root, dirs, files in os.walk(settings.MEDIA_CACHE_DIR):
                     for f in files:
-                        if not f[0] == '.': # Skip hidden files
+                        if not f[0] == '.':  # Skip hidden files
                             path = os.path.join(root, f)
                             if self.verbosity >= 1:
                                 print ('Deleting old media file: %s' % path)
@@ -163,7 +176,7 @@ class Command(BaseCommand):
             lang = queue[i][0]
             with language(lang):
                 if self.verbosity >= 2:
-                    print self.colored('%i / %i |' % (i+1, len(queue)), 'yellow'),
+                    print self.colored('%i / %i |' % (i + 1, len(queue)), 'yellow'),
                     print self.colored('(%s)' % lang, 'yellow'),
                     print self.colored(queue[i][1], 'green')
 
@@ -181,7 +194,7 @@ class Command(BaseCommand):
             lang = media_queue[i][0]
             with language(lang):
                 if self.verbosity >= 2:
-                    print self.colored('%i / %i |' % (i+1, len(media_queue)), 'yellow'),
+                    print self.colored('%i / %i |' % (i + 1, len(media_queue)), 'yellow'),
                     print self.colored('(%s)' % lang, 'yellow'),
                     print self.colored(','.join(media_queue[i][1]), 'green')
                 self._compile_media(*media_queue[i])
@@ -197,7 +210,7 @@ class Command(BaseCommand):
         Build a list of all the templates to be compiled.
         """
         # Create compile queue
-        queue = set() # Use a set, avoid duplication of records.
+        queue = set()  # Use a set, avoid duplication of records.
 
         if self.verbosity >= 2:
             print 'Building queue'
@@ -230,7 +243,7 @@ class Command(BaseCommand):
 
                         )):
 
-                    queue.add( (lang, t, input_path, output_path) )
+                    queue.add((lang, t, input_path, output_path))
 
                     # When this file has to be compiled, and other files depend
                     # on this template also compile the other templates.
@@ -238,9 +251,9 @@ class Command(BaseCommand):
                         for t2 in open(output_path + '-c-used-by', 'r').read().split('\n'):
                             if t2:
                                 try:
-                                    queue.add( (lang, t2, get_template_path(t2), self._make_output_path(lang, t2)) )
+                                    queue.add((lang, t2, get_template_path(t2), self._make_output_path(lang, t2)))
                                 except TemplateDoesNotExist, e:
-                                    pass # Reference to non-existing template
+                                    pass  # Reference to non-existing template
 
         # Return ordered queue
         queue = list(queue)

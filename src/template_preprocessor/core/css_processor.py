@@ -226,7 +226,8 @@ def compile_css_string(css_string, context, path='', url=None):
         _rewrite_urls(tree, url)
 
     # Compile
-    _compress_css_whitespace(tree)
+    if not path.endswith(".min.css"):
+        _compress_css_whitespace(tree)
 
     # Output
     return u''.join([o for o in tree.output_as_string() ])

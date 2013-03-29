@@ -8,6 +8,7 @@ from template_preprocessor.core.lexer import CompileException
 import os
 
 from template_preprocessor.core.utils import compile_external_javascript_files, compile_external_css_files
+from contextlib import contextmanager
 
 
 class GettextEntry(object):
@@ -95,6 +96,15 @@ class Context(object):
     def compile_css_files(self, compress_tag, media_files):
         return compile_external_css_files(media_files, self, compress_tag)
 
+    @contextmanager
+    def time_operation(self, name):
+        if hasattr(self, "verbosity") and self.verbosity >= 3:
+            begin = time.clock()
+            yield
+            end = time.clock()
+            print name, "%.2fs" % (end - begin)
+        else:
+            yield
 
 
 class PreprocessWarning(Warning):
@@ -112,13 +122,13 @@ class Options(object):
         # Default settings
         self.execute_preprocessable_tags = True
         self.merge_all_load_tags = True
-        self.preprocess_ifdebug = True # Should probably always be True
+        self.preprocess_ifdebug = True  # Should probably always be True
         self.preprocess_macros = True
         self.preprocess_translations = True
         self.preprocess_urls = True
         self.preprocess_variables = True
-        self.remove_block_tags = True # Should propably not be disabled
-        self.remove_some_tags = True # As we lack a better settings name
+        self.remove_block_tags = True  # Should propably not be disabled
+        self.remove_some_tags = True  # As we lack a better settings name
         self.whitespace_compression = True
 
         # HTML processor settings
@@ -129,12 +139,12 @@ class Options(object):
         self.compile_remote_css = False
         self.compile_remote_javascript = False
         self.merge_internal_css = False
-        self.merge_internal_javascript = False # Not always recommended...
+        self.merge_internal_javascript = False  # Not always recommended...
         self.remove_empty_class_attributes = False
         self.pack_external_javascript = False
         self.pack_external_css = False
         self.validate_html = True
-        self.disallow_orphan_blocks = False # An error will be raised when a block has been defined, which is not present in the parent.
+        self.disallow_orphan_blocks = False  # An error will be raised when a block has been defined, which is not present in the parent.
         self.disallow_block_level_elements_in_inline_level_elements = False
 
     def change(self, value, node=None):
@@ -145,12 +155,12 @@ class Options(object):
             'compile-css': ('compile_css', True),
             'compile-javascript': ('compile_javascript', True),
             'disallow-orphan-blocks': ('disallow_orphan_blocks', True),
-            'html': ('is_html', True), # Enable HTML extensions
+            'html': ('is_html', True),  # Enable HTML extensions
             'html-remove-empty-class-attributes': ('remove_empty_class_attributes', True),
             'merge-internal-css': ('merge_internal_css', True),
             'merge-internal-javascript': ('merge_internal_javascript', True),
             'no-disallow-orphan-blocks': ('disallow_orphan_blocks', False),
-            'no-html': ('is_html', False), # Disable all HTML specific options
+            'no-html': ('is_html', False),  # Disable all HTML specific options
             'no-i18n-preprocessing': ('preprocess_translations', False),
             'no-macro-preprocessing': ('preprocess_macros', False),
             'no-pack-external-css': ('pack_external_css', False),

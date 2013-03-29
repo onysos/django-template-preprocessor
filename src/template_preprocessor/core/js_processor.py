@@ -6,6 +6,7 @@ Author: Jonathan Slenders, City Live
 """
 
 
+
 """
 Javascript parser for the template preprocessor.
 -----------------------------------------------
@@ -790,6 +791,7 @@ def _process_gettext(js_node, context, validate_only=False):
                     pass
 
 
+
 def compile_javascript(js_node, context):
     """
     Compile the javascript nodes to more compact code.
@@ -802,7 +804,8 @@ def compile_javascript(js_node, context):
     nodes.
     """
     # Tokenize and compile
-    tokenize(js_node, __JS_STATES, HtmlContent, DjangoContainer)
+    with context.time_operation("tokenize"):
+        tokenize(js_node, __JS_STATES, HtmlContent, DjangoContainer)
     _compile(js_node, context)
 
 
@@ -815,31 +818,41 @@ def compile_javascript_string(js_string, context, path=''):
     tree.children = [ js_string ]
 
     # Tokenize
-    tokenize(tree, __JS_STATES, Token)
+    with context.time_operation("tokenize string"):
+        tokenize(tree, __JS_STATES, Token)
 
     # Compile
-    _compile(tree, context)
+    _compile(tree, context, already_minified=path.endswith(".min.js"))
 
     # Output
     return tree.output_as_string()
 
-
-def _compile(js_node, context):
+def _compile(js_node, context, already_minified=False):
     # Javascript parser extensions (required for proper output)
-    _add_javascript_parser_extensions(js_node)
+    with context.time_operation("parsing"):
+        _add_javascript_parser_extensions(js_node)
 
     # Validate javascript
-    _validate_javascript(js_node)
+    with context.time_operation("vilidation"):
+        if not already_minified:
+            _validate_javascript(js_node)
 
     # Remove meaningless whitespace in javascript code.
-    _compress_javascript_whitespace(js_node)
+    with context.time_operation("compress whitespace"):
+        if not already_minified:
+            _compress_javascript_whitespace(js_node)
+
 
     # Preprocess gettext
-    _process_gettext(js_node, context)
+    with context.time_operation("gettext"):
+        _process_gettext(js_node, context)
 
     # Minify variable names
-    _minify_variable_names(js_node)
-
-    fix_whitespace_bug(js_node)
+    with context.time_operation("minify var name"):
+        if not already_minified:
+            _minify_variable_names(js_node)
+    with context.time_operation("fix whitespace"):
+        if not already_minified:
+            fix_whitespace_bug(js_node)
 
 
