@@ -4,9 +4,15 @@
 Django template preprocessor.
 Author: Jonathan Slenders, City Live
 """
-
-
-
+import functools
+import hashlib
+import os
+from hashlib import md5
+import codecs
+from django.conf import settings
+from template_preprocessor.core.utils import _create_directory_if_not_exists
+import traceback
+PRECOMPILED_JS_DIR = getattr(settings, 'PRECOMPILED_JS_DIR', "/tmp/")
 """
 Javascript parser for the template preprocessor.
 -----------------------------------------------
@@ -809,10 +815,47 @@ def compile_javascript(js_node, context):
     _compile(js_node, context)
 
 
+def cached_compile(func):
+    cache = {}
+    @functools.wraps(func)
+    def wrapper(js_string, context, path=''):
+
+            if path == "":
+                return func(js_string, context, path)
+            elif  cache.has_key((js_string, path)):
+                return cache[(js_string, path)]
+            else:
+                hashed = md5(js_string + path).hexdigest()
+                filename = os.path.join(PRECOMPILED_JS_DIR, hashed + ".js")
+                if os.access(filename, os.R_OK):
+                    # ce fichier a deja ete compilé
+                    try:
+                        with codecs.open(filename, "r", "utf-8") as f:
+                            ret = f.read()
+                    except OSError:
+                        print "erreur de recuperation du fichier js precompilé : %s" % filename
+                        traceback.print_exc()
+                        return func(js_string, context, path)
+                else:
+                    ret = func(js_string, context, path)
+                    _create_directory_if_not_exists(os.path.dirname(filename))
+                    try:
+                        with codecs.open(filename, "w", "utf-8") as f:
+                            f.write(ret)
+                    except OSError:
+                        print "erreur de sauvegarde du fichier js precompilé : %s" % filename
+                        traceback.print_exc()
+                cache[(js_string, path)] = ret
+                return ret
+
+    return wrapper
+
+@cached_compile
 def compile_javascript_string(js_string, context, path=''):
     """
     Compile JS code (can be used for external javascript files)
     """
+
     # First, create a tree to begin with
     tree = Token(name='root', line=1, column=1, path=path)
     tree.children = [ js_string ]
