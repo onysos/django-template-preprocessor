@@ -825,7 +825,10 @@ def cached_compile(func):
             elif  cache.has_key((js_string, path)):
                 return cache[(js_string, path)]
             else:
-                hashed = md5(js_string + path).hexdigest()
+
+                hashme = js_string.encode("utf-8")
+                hashme += path.encode("utf-8")
+                hashed = md5(hashme).hexdigest()
                 filename = os.path.join(PRECOMPILED_JS_DIR, hashed + ".js")
                 if os.access(filename, os.R_OK):
                     # ce fichier a deja ete compilé
