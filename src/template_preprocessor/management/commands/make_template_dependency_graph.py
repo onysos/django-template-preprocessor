@@ -8,7 +8,7 @@ Generate a graph of all the templates.
 
 
 from django.core.management.base import BaseCommand
-from django.conf import settings
+from django.conf import settings, Settings
 from django.utils.html import escape
 from optparse import make_option
 from yapgvb import Graph
@@ -40,9 +40,9 @@ class Command(BaseCommand):
         g.landscape = True
         g.rotate = 90
         g.label = str(datetime.datetime.now())
-        #g.scale = 0.7
-        #g.overlap = 'prism'
-        #g.overlap = False
+        # g.scale = 0.7
+        # g.overlap = 'prism'
+        # g.overlap = False
         g.overlap = 'scale'
         g.ranksep = 1.8
         g.overlap = 'compress'
@@ -56,7 +56,7 @@ class Command(BaseCommand):
 
         # Retreive all nodes/edges
         for dir, t in template_iterator():
-            if t.startswith(directory) and not any([ t.startswith(x) for x in exclude_directory ]):
+            if (t.startswith(directory) or directory == "") and not any([ t.startswith(x) for x in exclude_directory ]):
                 nodes.add(t)
 
                 # {% include "..." %}
@@ -66,7 +66,7 @@ class Command(BaseCommand):
                     for t2 in open(includes, 'r').read().split('\n'):
                         if t2:
                             nodes.add(t2)
-                            edges.append( (t, t2, False) )
+                            edges.append((t, t2, False))
 
                             nodes_in_edges.add(t)
                             nodes_in_edges.add(t2)
@@ -78,7 +78,7 @@ class Command(BaseCommand):
                     for t2 in open(extends, 'r').read().split('\n'):
                         if t2:
                             nodes.add(t2)
-                            edges.append( (t, t2, True) )
+                            edges.append((t, t2, True))
 
                             nodes_in_edges.add(t)
                             nodes_in_edges.add(t2)
@@ -107,7 +107,7 @@ class Command(BaseCommand):
             else:
                 edge.style = 'dotted'
 
-        #g.layout('neato')
+        # g.layout('neato')
         g.layout('twopi')
         g.render(settings.ROOT + 'template_dependency_graph.pdf', 'pdf', None)
         g.render(settings.ROOT + 'template_dependency_graph.jpg', 'jpg', None)
@@ -138,5 +138,6 @@ class Command(BaseCommand):
         return nodes[template]
 
     def _make_output_path(self, template):
-        return os.path.join(settings.TEMPLATE_CACHE_DIR, 'en', template)
+        language = getattr(settings, "LANGUAGE_CODE", "en")
+        return os.path.join(settings.TEMPLATE_CACHE_DIR, language, template)
 
