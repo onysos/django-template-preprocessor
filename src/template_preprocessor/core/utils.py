@@ -30,13 +30,13 @@ except ImportError:
 # =======[ Utilities for media/static files ]======
 
 def is_remote_url(url):
-    return any(url.startswith(prefix) for prefix in ('http://', 'https://'))
+    return url is not None and any(url.startswith(prefix) for prefix in ('http://', 'https://'))
 
 def is_media_url(url):
-    return url.startswith(MEDIA_URL)
+    return url is not None and url.startswith(MEDIA_URL)
 
 def is_static_url(url):
-    return url.startswith(STATIC_URL)
+    return url is not None and url.startswith(STATIC_URL)
 
 
 def get_media_source_from_url(url):
