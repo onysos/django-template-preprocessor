@@ -78,7 +78,7 @@ __HTML_ATTRIBUTES = {
     'button': ('value', 'type', 'name',),
     'label': ('for',),
     'option': ('value', 'selected',),
-    'base': ('href',),
+    'base': ('href', 'target',),
     'object': ('data', 'type', 'width', 'height', 'quality',),
     'iframe': ('src', 'srcdoc', 'name', 'height', 'width', 'marginwidth', 'marginheight', 'scrolling', 'sandbox', 'seamless', 'frameborder', 'allowTransparency', 'webkitAllowFullScreen', 'allowFullScreen', 'mozallowfullscreen', 'frameBorder',),
     'param': ('name', 'value',),
