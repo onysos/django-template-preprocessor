@@ -53,7 +53,7 @@ __HTML_ATTRIBUTES = {
         'hidden', 'spellcheck', 'style', 'tabindex', 'lang', 'xmlns', 'title', 'xml:lang',
 
         # HTML 5
-        'itemscope', 'itemtype', 'itemprop', 'role',
+        'itemscope', 'itemtype', 'itemprop', 'role', 'disabled',
         ),
 
     # Attributes for specific HTML tags
