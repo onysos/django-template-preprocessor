@@ -12,7 +12,7 @@ try:
 except ImportError:
         from django.utils.hashcompat import sha_constructor
 
-from django.utils.hashcompat import sha_constructor
+
 from django.utils.importlib import import_module
 from django.template import StringOrigin
 
