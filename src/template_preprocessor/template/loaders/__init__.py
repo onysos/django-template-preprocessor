@@ -7,6 +7,11 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template import TemplateDoesNotExist
 from django.template.loader import BaseLoader, get_template_from_string, find_template_loader, make_origin
 from django.utils import translation
+try:
+        from hashlib import md5 as md5_constructor
+except ImportError:
+        from django.utils.hashcompat import md5_constructor
+
 from django.utils.hashcompat import sha_constructor
 from django.utils.importlib import import_module
 from django.template import StringOrigin
