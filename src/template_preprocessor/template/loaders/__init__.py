@@ -129,7 +129,6 @@ class RuntimeProcessedLoader(_Base):
 
         # Precompile command
         execute_precompile_command()
-        print 'compiling %s' % template_name
 
         # Compile template
         template, context = compile(template, path=template_name, loader = lambda path: self.find_template(path)[0],
@@ -213,7 +212,6 @@ class ValidatorLoader(_Base):
             import inspect
             if not any(i[3] in ('render', 'do_include') for i in inspect.getouterframes(inspect.currentframe())):
                 # Precompile command
-                print 'compiling %s' % template_name
                 execute_precompile_command()
 
                 compile(template, loader = lambda path: self.find_template(path)[0], path=template_name,
